@@ -6,7 +6,7 @@ manage projects with multiple framework / building tools
 #### Installation
 
 ```javascript
-npm i -g steamer-cli
+npm i -g steamerjs
 
 npm i -g steamer-plugin-pro
 ```

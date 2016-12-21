@@ -1,6 +1,6 @@
 {
   "name": "steamer-plugin-pro",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "steamer-plugin-pro",
   "main": "index.js",
   "scripts": {},
@@ -22,11 +22,9 @@
     "fs-extra": "^1.0.0",
     "inquirer": "^1.2.3",
     "lodash": "^4.17.2",
-    "steamer-pluginutils": "0.0.1"
+    "steamer-pluginutils": "0.0.3"
   },
   "devDependencies": {
-    "jasmine": "^2.4.0",
-    "gulp": "gulpjs/gulp#4.0",
-    "steamer-cli": "*"
+    "jasmine": "^2.4.0"
   }
 }
