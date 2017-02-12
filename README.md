@@ -250,6 +250,8 @@ steamer pro --dist steamer-react
 // 将此模块链接到全局下
 npm link
 
+// 进入specPlugin中，在project2/steamer-simple, project2/steamer-react, project3/steamer-simple中安装依赖
+
 // 运行测试用例
 npm test
 ```
