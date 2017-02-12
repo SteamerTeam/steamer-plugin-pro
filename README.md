@@ -11,7 +11,7 @@ npm i -g steamer-plugin-pro
 ```
 
 
-#### 项目结构
+### 项目结构
 
 通常来说，会有两种的项目结构
 
@@ -38,7 +38,7 @@ Main Project
 
 ```
 
-#### 初始化
+### 初始化
 
 如果你希望 `steamer-plugin-pro` 自动检测你的项目，你需要适当改动你的子项目的 `package.json`。 下面的 `name`, `start` 和 `dist` 就是会使用到的值。
 
@@ -123,7 +123,8 @@ module.exports = {
 }
 ```
 
-#### 开发或发布你的项目
+
+### 开发或发布你的项目
 
 * 开发项目
 
@@ -243,5 +244,16 @@ steamer pro --dist steamer-react
 
 如果你想进行深度定制，你可以通过 `config` 参数，获取各项目的相关位置信息，然后自己进一步写逻辑定制。
 
-## Changelog
+
+### 开发
+```
+// 将此模块链接到全局下
+npm link
+
+// 运行测试用例
+npm test
+```
+
+
+### Changelog
 * v1.0.0 初始化项目、多项目同时开发和发布、合并生成的线上代码
