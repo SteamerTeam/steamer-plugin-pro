@@ -197,3 +197,51 @@ steamer pro --dist steamer-react
     }
 }
 ```
+
+有时候，你会希望将各个子项目中的 `dist` 文件夹中的文件，全部放置到父项目文件夹的 `dist` 目录中，这时，首先你可以在各个项目的配置中，添加 `dist` 字段，记录子项目的 `dist` 目录将会生成到哪里，如下，设置 `dist` 的值为 `dist 表示，将子项目的 `dist` 目录，成生到父项目的 `dist` 目录下。插件强制规定子项目线上代码必须放在 `dist` 中（符合 `steamer` starter kit 的规范），你无法定制。
+
+```javascript
+"projects": {
+    "steamer-react": {
+        "src": "steamer-react",
+        "dist": "dist",
+        "cmds": {
+            "start": "node ./tools/start.js",
+            "dist": "node ./tools/dist.js"
+        }
+    },
+    "steamer-simple": {
+        "src": "steamer-simple",
+        "dist": "dist",
+        "cmds": {
+            "start": "node ./tools/start.js",
+            "dist": "node ./tools/dist.js"
+        }
+    }
+},
+```
+
+然后，当 `steamer pro -d` 编译结束后，调用 `steps.dist.finish` 回调时，调用插件内置的方法 `this.copyToDist`，如下，插件会帮你完成此功能：
+
+```javascript
+...
+"steps": {
+    "start": {},
+    "dist": {
+        start: function(config) {
+            console.log("=====start=====");
+            // console.log(config);
+        },
+        finish: function(config) {    
+            if (config.isEnd) {
+                this.copyToDist();
+            }
+        }
+    }
+}
+```
+
+如果你想进行深度定制，你可以通过 `config` 参数，获取各项目的相关位置信息，然后自己进一步写逻辑定制。
+
+## Changelog
+* v1.0.0 初始化项目、多项目同时开发和发布、合并生成的线上代码

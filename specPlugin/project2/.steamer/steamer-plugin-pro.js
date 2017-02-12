@@ -28,7 +28,7 @@ module.exports = {
                 },
                 finish: function(config) {      // command ends               
                     if (config.isEnd) {
-                        this.copyToDist()
+                        this.copyToDist();
                     }
                 }
             }

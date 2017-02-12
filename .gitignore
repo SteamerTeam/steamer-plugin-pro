@@ -3,6 +3,4 @@ node_modules
 **/*/.happypack
 **/*/.webpack_cache
 **/*/.DS_Store
-**/**/dist
 dist
-specPlugin/project1/steamer-simple/dist
