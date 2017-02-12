@@ -36,6 +36,13 @@ module.exports = {
                     "start": "node ./tools/start.js",
                     "dist": "node ./tools/dist.js"
                 }
+            },
+            "steamer-simple3": {
+                "src": "steamer-simple/steamer-simple1/steamer-simple2/steamer-simple3",
+                "cmds": {
+                    "start": "node ./tools/start.js",
+                    "dist": "node ./tools/dist.js"
+                }
             }
         },
         "steps": {

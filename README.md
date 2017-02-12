@@ -40,7 +40,7 @@ Main Project
 
 #### 初始化
 
-如果你希望 `steamer-plugin-pro` 自动检测你的项目，你需要在适当改动你的子项目的 `package.json`。 下面的 `start` 和 `dist` 就是会使用到的值。
+如果你希望 `steamer-plugin-pro` 自动检测你的项目，你需要适当改动你的子项目的 `package.json`。 下面的 `name`, `start` 和 `dist` 就是会使用到的值。
 
 ```javascript
 {
@@ -62,7 +62,7 @@ or
 
 steamer pro --init
 
-// 搜索到第4层
+// 父项目为第0层，一直搜索到第4层
 steamer pro -i -l 4
 
 or
@@ -198,7 +198,7 @@ steamer pro --dist steamer-react
 }
 ```
 
-有时候，你会希望将各个子项目中的 `dist` 文件夹中的文件，全部放置到父项目文件夹的 `dist` 目录中，这时，首先你可以在各个项目的配置中，添加 `dist` 字段，记录子项目的 `dist` 目录将会生成到哪里，如下，设置 `dist` 的值为 `dist 表示，将子项目的 `dist` 目录，成生到父项目的 `dist` 目录下。插件强制规定子项目线上代码必须放在 `dist` 中（符合 `steamer` starter kit 的规范），你无法定制。
+有时候，你会希望将各个子项目中的 `dist` 文件夹中的文件，全部放置到父项目文件夹的某个文件夹中，这时，首先你可以在各个项目的配置中，添加 `dist` 字段，记录子项目的 `dist` 目录将会生成父项目的某个文件夹，如下，设置 `dist` 的值为 `dist 表示，将子项目的 `dist` 目录，将生成到父项目的 `dist` 目录下。插件强制规定子项目线上代码必须放在 `dist` 中（符合 `steamer` starter kit 的规范），你无法定制。
 
 ```javascript
 "projects": {
@@ -221,7 +221,7 @@ steamer pro --dist steamer-react
 },
 ```
 
-然后，当 `steamer pro -d` 编译结束后，调用 `steps.dist.finish` 回调时，调用插件内置的方法 `this.copyToDist`，如下，插件会帮你完成此功能：
+然后，当 `steamer pro -d` 编译结束后，在调用 `steps.dist.finish` 回调时，调用插件内置的方法 `this.copyToDist`，如下，插件会帮你完成此功能：
 
 ```javascript
 ...

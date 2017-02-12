@@ -68,6 +68,10 @@ describe("steamer-plugin-pro", function() {
         expect(config.config.projects['steamer-simple2'].src).toBe('steamer-simple/steamer-simple1/steamer-simple2');
         expect(config.config.projects['steamer-simple2'].cmds.start).toBe('node ./tools/start.js');
         expect(config.config.projects['steamer-simple2'].cmds.dist).toBe('node ./tools/dist.js');
+
+        expect(config.config.projects['steamer-simple3'].src).toBe('steamer-simple/steamer-simple1/steamer-simple2/steamer-simple3');
+        expect(config.config.projects['steamer-simple3'].cmds.start).toBe('node ./tools/start.js');
+        expect(config.config.projects['steamer-simple3'].cmds.dist).toBe('node ./tools/dist.js');
      
         expect(config.config.steps.start).toEqual({});
         expect(config.config.steps.dist).toEqual({});
