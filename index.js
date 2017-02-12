@@ -77,11 +77,13 @@ ProPlugin.prototype.readPkgJson = function(dirs) {
 	dirs.map((item, key) => {
 		let projectPath = path.resolve(item),
 			pkgJsonPath = path.join(projectPath, "package.json");
-		
+
 		if (fs.existsSync(pkgJsonPath)) {
+			// console.log();
+
 			let pkgJson = JSON.parse(fs.readFileSync(pkgJsonPath, "utf-8"));
 			this.config.projects[pkgJson.name] = {
-				src: projectPath,
+				src: path.relative(path.resolve(), projectPath),
 				cmds: {
 					start: pkgJson.scripts.start || "",
 					dist: pkgJson.scripts.dist || ""

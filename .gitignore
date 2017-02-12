@@ -3,3 +3,4 @@ node_modules
 **/*/.happypack
 **/*/.webpack_cache
 **/*/.DS_Store
+**/*/dist

@@ -3,16 +3,14 @@ module.exports = {
     "config": {
         "projects": {
             "steamer-react": {
-                "src": "/Users/lcxfs1991/web/steamer-plugin-pro/specPlugin/project/steamer-react",
-                "dist": "./dist/",
+                "src": "steamer-react",
                 "cmds": {
                     "start": "node ./tools/start.js",
                     "dist": "node ./tools/dist.js"
                 }
             },
             "steamer-simple": {
-                "src": "/Users/lcxfs1991/web/steamer-plugin-pro/specPlugin/project/steamer-simple",
-                "dist": "./dist/",
+                "src": "steamer-simple",
                 "cmds": {
                     "start": "node ./tools/start.js",
                     "dist": "node ./tools/dist.js"
@@ -21,17 +19,7 @@ module.exports = {
         },
         "steps": {
             "start": {},
-            "dist": {
-                start: function(config) {       // command starts
-                    console.log("=====start=====");
-                    // console.log(config);
-                },
-                finish: function(config) {      // command ends
-                    if (config.isEnd) {
-                        this.copyToDist()
-                    }
-                }
-            }
+            "dist": {}
         }
     }
 }
