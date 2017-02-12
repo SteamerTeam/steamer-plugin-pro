@@ -26,7 +26,7 @@ module.exports = {
                     console.log("=====start=====");
                     // console.log(config);
                 },
-                finish: function(config) {      // command ends
+                finish: function(config) {      // command ends               
                     if (config.isEnd) {
                         this.copyToDist()
                     }

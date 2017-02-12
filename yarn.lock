@@ -291,7 +291,7 @@ is-number@^2.0.2, is-number@^2.1.0:
 
 is-posix-bracket@^0.1.0:
   version "0.1.1"
-  resolved "https://registry.yarnpkg.com/is-posix-bracket/-/is-posix-bracket-0.1.1.tgz#3334dc79774368e92f016e6fbc0a88f5cd6e6bc4"
+  resolved "http://registry.npmjs.org/is-posix-bracket/-/is-posix-bracket-0.1.1.tgz#3334dc79774368e92f016e6fbc0a88f5cd6e6bc4"
 
 is-primitive@^2.0.0:
   version "2.0.0"
@@ -507,7 +507,7 @@ spawn-sync@^1.0.15:
     concat-stream "^1.4.7"
     os-shim "^0.1.2"
 
-steamer-pluginutils@^1.0.4:
+steamer-pluginutils@^1.0.6:
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/steamer-pluginutils/-/steamer-pluginutils-1.0.6.tgz#c9769b6bb6348d9a0d3c8a6cf4e1a712ad8e68ed"
   dependencies:

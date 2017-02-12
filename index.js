@@ -33,7 +33,7 @@ ProPlugin.prototype.init = function() {
 		    }
 		};
 		let dirs = ["./"],
-			depth = argv.d || argv.depth;
+			depth = argv.l || argv.level;
 			depth = (depth && depth !== true) ? depth : 2;
 
 		this.createConfig(dirs, depth);
@@ -79,7 +79,6 @@ ProPlugin.prototype.readPkgJson = function(dirs) {
 			pkgJsonPath = path.join(projectPath, "package.json");
 
 		if (fs.existsSync(pkgJsonPath)) {
-			// console.log();
 
 			let pkgJson = JSON.parse(fs.readFileSync(pkgJsonPath, "utf-8"));
 			this.config.projects[pkgJson.name] = {
@@ -166,7 +165,7 @@ ProPlugin.prototype.runCommand = function(cmdType, subProject) {
 	projects.map((item, key) => {
 		let project = projectConfig[item];
 
-		projectFolder.push(project.src);
+		projectFolder.push(path.resolve(project.src));
 		projectCmds.push(project.cmds[cmdType]);
 	});
 
@@ -190,11 +189,9 @@ ProPlugin.prototype.runCommand = function(cmdType, subProject) {
 		}, stepFinish).bind(this)();
 	});
 
-	// console.log(projects, projectFolder, projectCmds);
 };
 
 ProPlugin.prototype.runningProcess = function(opt, cb) {
-	// console.log(opt, cb);
 
 	let projects = opt.projects,
 		projectFolder = opt.projectFolder,
@@ -207,7 +204,9 @@ ProPlugin.prototype.runningProcess = function(opt, cb) {
 	return () => {
 
 		let childProcess = exec(cmd, {cwd}, function (error, stdout, stderr) {
-			
+			if (error) {
+				console.log(error);
+			}
         });
 
 		this.tmpConfig[childProcess.pid] = _.merge({

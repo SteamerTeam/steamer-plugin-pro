@@ -1,9 +1,8 @@
-### steamer-plugin-pro
+##  steamer-plugin-pro
 
-manage projects with multiple framework / distributing tools
+多框架管理工具
 
-
-#### Installation
+### 安装
 
 ```javascript
 npm i -g steamerjs
@@ -12,11 +11,11 @@ npm i -g steamer-plugin-pro
 ```
 
 
-#### Project Structure
+#### 项目结构
 
-Generally, there are two types of structure:
+通常来说，会有两种的项目结构
 
-* Brother Relationship Structure
+* 兄弟结构
 
 ```javascript
 
@@ -26,8 +25,8 @@ Main Porject
 
 ```
 
-* Parent-Child Relationship Structure
-	- by default, steamer search folders in depth 2
+* 父子结构
+	- 默认, `steamer-plugin-pro` 只会搜索到第2层
 
 ```javascript
 
@@ -39,9 +38,9 @@ Main Project
 
 ```
 
-#### Initialization
+#### 初始化
 
-If you hope `steamer-plugin-pro` can detect your project, you have to place `package.json` in your project folder. The following 2 fields will be used in plugin config.
+如果你希望 `steamer-plugin-pro` 自动检测你的项目，你需要在适当改动你的子项目的 `package.json`。 下面的 `start` 和 `dist` 就是会使用到的值。
 
 ```javascript
 {
@@ -54,7 +53,7 @@ If you hope `steamer-plugin-pro` can detect your project, you have to place `pac
 
 ```
 
-Here is an example plugin config (.steamer/steamer-plugin-pro.js). When you use the following command, `steamer-plugin-pro` will generate the config file.
+下面是一个展示的例子, `steamer-plugin-pro` 会生成 `steamer-plugin-pro.js` 配置文件.
 
 ```javascript
 steamer pro -i
@@ -63,14 +62,14 @@ or
 
 steamer pro --init
 
-// search deeper folders
-steamer pro -i -d 4
+// 搜索到第4层
+steamer pro -i -l 4
 
 or
 
-steamer pro --init -depth 4
+steamer pro --init --level 4
 
-// init the config no matter previous config file is created or not
+// 无论 `steamer-plugin-pro.js` 配置文件是否存在，直接覆盖
 steamer pro -i -f
 
 or
@@ -78,8 +77,9 @@ or
 steamer pro --init --force
 ```
 
-`name` is used as `project` key. `start` and `dist` in `scripts` is used for `cmds` in config.
-`folder` value will be generated for you. 
+`package.json`中的 `name` 值，直接作为 `project` 的值. `package.json` 里的 `scripts`中，`start` 和 `dist`  被用于配置中的 `cmds` 值。
+
+`src` 值，则表示子项目文件的相对位置。
 
 ```javascript
 module.exports = {
@@ -87,28 +87,28 @@ module.exports = {
     "config": {
         "projects": {
             "steamer-project": {
-                "folder": "/Users/xxx/web/project",
+                "src": "project",
                 "cmds": {
                     "start": "",
                     "dist": ""
                 }
             },
             "steamer-koa": {
-                "folder": "/Users/xxx/web/project/koa",
+                "src": "koa",
                 "cmds": {
                     "start": "node-dev ./app.js",
                     "dist": ""
                 }
             },
             "steamer-model": {
-                "folder": "/Users/xxx/web/project/model",
+                "folder": "model",
                 "cmds": {
                     "start": "gulp&&node ./webpack.server.js",
                     "dist": "gulp sprites&&export NODE_ENV=production&&webpack"
                 }
             },
             "steamer-react": {
-                "folder": "/Users/xxx/web/project/react",
+                "folder": "react",
                 "cmds": {
                     "start": "gulp&&node ./webpack.server.js",
                     "dist": "gulp sprites&&export NODE_ENV=production&&webpack"
@@ -123,19 +123,19 @@ module.exports = {
 }
 ```
 
-#### Start or Distribute Your Project
+#### 开发或发布你的项目
 
-* start project
+* 开发项目
 
 ```javascript
-// for all projects
+// 开发所有项目
 steamer pro -s 
 
 or 
 
 steamer pro --start
 
-// for specific project
+// 只开发特定项目
 
 steamer pro -s steamer-react
 
@@ -144,17 +144,17 @@ or
 steamer pro --start steamer-react
 ```
 
-* distribute project
+* 发布项目
 
 ```javascript
-// for all projects
+// 发布所有项目
 steamer pro -d 
 
 or 
 
 steamer pro --dist
 
-// for specific project
+// 只发布特定项目
 
 steamer pro -d steamer-react
 
@@ -163,33 +163,33 @@ or
 steamer pro --dist steamer-react
 ```
 
-You can also set the following callbacks in config file. A `config` object will be passed as parameter.
+你也可以设置以下的回调函数，`config` 会作为参数传递到回调函数中。
 
 * `config.currentProject`
-	- current project in current process
+	- 当前子进程的执行的项目
 
 * `config.isEnd`
-	- only shows in `finish` callback, if is `true`, it means all processes reach end
+	- 只会在 `finish` 回调中出现, 如果是 `true`, 表示所有子进程结束
 
 ```javascript
 "steps": {
     "start": {
-        start: function(config) {       // command starts
+        start: function(config) {       // 命令开始
             console.log("=====start=====");
             console.log(config);
         },
-        finish: function(config) {      // command ends
+        finish: function(config) {      // 命令结束
             if (config.isEnd) {
                 console.log("======end=====");
             }
         }
     },
     "dist": {
-        start: function(config) {       // command starts
+        start: function(config) {       // 命令开始
             console.log("=====start=====");
             console.log(config);
         },
-        finish: function(config) {      // command ends
+        finish: function(config) {      // 命令结束
             if (config.isEnd) {
                 console.log(config);
             }
