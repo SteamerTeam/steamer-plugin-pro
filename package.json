@@ -1,8 +1,9 @@
 {
   "name": "steamer-plugin-pro",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "steamer-plugin-pro",
   "main": "index.js",
+  "bin": "index.js",
   "scripts": {},
   "repository": {
     "type": "git",
@@ -19,14 +20,13 @@
   "homepage": "https://github.com/SteamerTeam/steamer-plugin-pro#readme",
   "dependencies": {
     "colors": "^1.1.2",
-    "fs-extra": "^1.0.0",
+    "fs-extra": "^2.0.0",
     "inquirer": "^1.2.3",
+    "klaw-sync": "^1.0.2",
     "lodash": "^4.17.2",
-    "steamer-pluginutils": "0.0.1"
+    "steamer-pluginutils": "^1.0.4"
   },
   "devDependencies": {
-    "jasmine": "^2.4.0",
-    "gulp": "gulpjs/gulp#4.0",
-    "steamer-cli": "*"
+    "jasmine": "^2.5.0"
   }
 }

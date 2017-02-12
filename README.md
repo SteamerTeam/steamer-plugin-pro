@@ -1,12 +1,12 @@
 ### steamer-plugin-pro
 
-manage projects with multiple framework / building tools
+manage projects with multiple framework / distributing tools
 
 
 #### Installation
 
 ```javascript
-npm i -g steamer-cli
+npm i -g steamerjs
 
 npm i -g steamer-plugin-pro
 ```
@@ -48,7 +48,7 @@ If you hope `steamer-plugin-pro` can detect your project, you have to place `pac
   "name": "steamer-project",
   "scripts": {
   	"start": "",
-  	"build": "",
+  	"dist": "",
   },
 }
 
@@ -78,7 +78,7 @@ or
 steamer pro --init --force
 ```
 
-`name` is used as `project` key. `start` and `build` in `scripts` is used for `cmds` in config.
+`name` is used as `project` key. `start` and `dist` in `scripts` is used for `cmds` in config.
 `folder` value will be generated for you. 
 
 ```javascript
@@ -90,40 +90,40 @@ module.exports = {
                 "folder": "/Users/xxx/web/project",
                 "cmds": {
                     "start": "",
-                    "build": ""
+                    "dist": ""
                 }
             },
             "steamer-koa": {
                 "folder": "/Users/xxx/web/project/koa",
                 "cmds": {
                     "start": "node-dev ./app.js",
-                    "build": ""
+                    "dist": ""
                 }
             },
             "steamer-model": {
                 "folder": "/Users/xxx/web/project/model",
                 "cmds": {
                     "start": "gulp&&node ./webpack.server.js",
-                    "build": "gulp sprites&&export NODE_ENV=production&&webpack"
+                    "dist": "gulp sprites&&export NODE_ENV=production&&webpack"
                 }
             },
             "steamer-react": {
                 "folder": "/Users/xxx/web/project/react",
                 "cmds": {
                     "start": "gulp&&node ./webpack.server.js",
-                    "build": "gulp sprites&&export NODE_ENV=production&&webpack"
+                    "dist": "gulp sprites&&export NODE_ENV=production&&webpack"
                 }
             }
         },
         "steps": {
             "start": {},
-            "build": {}
+            "dist": {}
         }
     }
 }
 ```
 
-#### Start or Build Your Project
+#### Start or Distribute Your Project
 
 * start project
 
@@ -144,23 +144,23 @@ or
 steamer pro --start steamer-react
 ```
 
-* build project
+* distribute project
 
 ```javascript
 // for all projects
-steamer pro -b 
+steamer pro -d 
 
 or 
 
-steamer pro --build
+steamer pro --dist
 
 // for specific project
 
-steamer pro -b steamer-react
+steamer pro -d steamer-react
 
 or 
 
-steamer pro --build steamer-react
+steamer pro --dist steamer-react
 ```
 
 You can also set the following callbacks in config file. A `config` object will be passed as parameter.
@@ -184,7 +184,7 @@ You can also set the following callbacks in config file. A `config` object will 
             }
         }
     },
-    "build": {
+    "dist": {
         start: function(config) {       // command starts
             console.log("=====start=====");
             console.log(config);

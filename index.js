@@ -1,7 +1,6 @@
 "use strict";
 
 const fs = require('fs-extra'),
-	  argv = require('yargs').argv,
 	  exec = require('child_process').exec,
 	  _ = require('lodash'),
 	  path = require('path'),
@@ -30,21 +29,20 @@ ProPlugin.prototype.init = function() {
 			projects: {},
 			steps: {			// callback
 		        start: {},		// npm start callback
-		        build: {},		// npm run build callback
+		        dist: {},		// npm run dist callback
 		    }
 		};
 		let dirs = ["./"],
 			depth = argv.d || argv.depth;
 			depth = (depth && depth !== true) ? depth : 2;
 
-		console.log(depth);
 		this.createConfig(dirs, depth);
 	}
 	else if (argv.s || argv.start) {
 		this.start();
 	}
-	else if (argv.b || argv.build) {
-		this.build();
+	else if (argv.d || argv.dist) {
+		this.dist();
 	}
 
 };
@@ -67,8 +65,7 @@ ProPlugin.prototype.walkDir = function(dirPath) {
 	dirs = dirs.map((item, key) => {
 		return path.join(dirPath, item);
 	});
-
-	console.log(dirs);
+	
 	return dirs;
 };
 
@@ -84,10 +81,10 @@ ProPlugin.prototype.readPkgJson = function(dirs) {
 		if (fs.existsSync(pkgJsonPath)) {
 			let pkgJson = JSON.parse(fs.readFileSync(pkgJsonPath, "utf-8"));
 			this.config.projects[pkgJson.name] = {
-				folder: projectPath,
+				src: projectPath,
 				cmds: {
 					start: pkgJson.scripts.start || "",
-					build: pkgJson.scripts.build || ""
+					dist: pkgJson.scripts.dist || ""
 				}
 			};
 		}
@@ -138,12 +135,12 @@ ProPlugin.prototype.start = function() {
 };
 
 /**
- * [build command]
+ * [dist command]
  */
-ProPlugin.prototype.build = function() {
-	let subProject = this.argv.b || this.argv.build;
+ProPlugin.prototype.dist = function() {
+	let subProject = this.argv.d || this.argv.dist;
 	subProject = (subProject && subProject !== true) ? subProject : null;
-	this.runCommand("build", subProject);
+	this.runCommand("dist", subProject);
 };
 
 ProPlugin.prototype.runCommand = function(cmdType, subProject) {
@@ -167,7 +164,7 @@ ProPlugin.prototype.runCommand = function(cmdType, subProject) {
 	projects.map((item, key) => {
 		let project = projectConfig[item];
 
-		projectFolder.push(project.folder);
+		projectFolder.push(project.src);
 		projectCmds.push(project.cmds[cmdType]);
 	});
 
@@ -245,6 +242,31 @@ ProPlugin.prototype.runningProcess = function(opt, cb) {
         });
 
 	};
+};
+
+ProPlugin.prototype.copyToDist = function() {
+	let projectConfig = this.config.projects || {},
+		projects = Object.keys(projectConfig) || [];
+
+	projects.map((item) => {
+		let dist = projectConfig[item].dist || "",
+			distPath = path.resolve(dist);
+
+		fs.removeSync(distPath);
+
+	});
+
+	projects.map((item) => {
+		let dist = projectConfig[item].dist || "",
+			src = projectConfig[item].src || "",
+			srcPath = path.resolve(src, "dist"),
+			distPath = path.resolve(dist);
+		
+		if (fs.existsSync(srcPath)) {
+			fs.copySync(srcPath, distPath);
+		}
+		
+	});
 };
 
 module.exports = ProPlugin;
