@@ -1,12 +1,13 @@
 {
   "name": "steamer-plugin-pro",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "steamer-plugin-pro",
   "main": "index.js",
   "bin": "index.js",
   "scripts": {
+    "lint": "eslint index.js",
     "pretest": "node ./specPlugin/run1.js && node ./specPlugin/run2.js",
-    "test": "jasmine"
+    "test": "npm run lint && jasmine"
   },
   "eslintConfig": {
     "extends": "./config/eslint-config.js"
@@ -30,7 +31,7 @@
     "inquirer": "^1.2.3",
     "klaw-sync": "^1.0.2",
     "lodash": "^4.17.2",
-    "steamer-pluginutils": "^1.0.6"
+    "steamer-pluginutils": "^1.0.7"
   },
   "devDependencies": {
     "jasmine": "^2.5.0"

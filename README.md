@@ -253,9 +253,12 @@ npm link
 // 进入specPlugin中，在project2/steamer-simple, project2/steamer-react, project3/steamer-simple中安装依赖
 
 // 运行测试用例
+npm i -g eslint // 安装eslint
+
 npm test
 ```
 
 
 ### Changelog
 * v1.0.0 初始化项目、多项目同时开发和发布、合并生成的线上代码
+* v1.0.1 优化log输出

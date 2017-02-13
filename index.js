@@ -9,7 +9,7 @@ const fs = require('fs-extra'),
 var utils = new pluginUtils();
 utils.pluginName = "steamer-plugin-pro";
 
-function emptyFunc() {};
+function emptyFunc() {}
 
 function ProPlugin(argv) {
 	this.argv = argv;
@@ -53,16 +53,15 @@ ProPlugin.prototype.init = function() {
  * @return {Arrays}         [filtered folders]
  */
 ProPlugin.prototype.walkDir = function(dirPath) {
-	let dirs = fs.readdirSync(dirPath),
-		stats = fs.statSync(dirPath);
+	let dirs = fs.readdirSync(dirPath);
 
-	dirs = dirs.filter((item, key) => {
+	dirs = dirs.filter((item) => {
 		let idDirectory = fs.lstatSync(path.join(dirPath, item)).isDirectory();
 		return item !== "node_modules" && item !== ".git" && item !== ".steamer"
 			   && idDirectory;
 	});
 
-	dirs = dirs.map((item, key) => {
+	dirs = dirs.map((item) => {
 		return path.join(dirPath, item);
 	});
 	
@@ -74,7 +73,7 @@ ProPlugin.prototype.walkDir = function(dirPath) {
  * @param  {Array} dirs [potential project dirs]
  */
 ProPlugin.prototype.readPkgJson = function(dirs) {
-	dirs.map((item, key) => {
+	dirs.map((item) => {
 		let projectPath = path.resolve(item),
 			pkgJsonPath = path.join(projectPath, "package.json");
 
@@ -102,7 +101,7 @@ ProPlugin.prototype.createConfig = function(dirs, d) {
 
 	this.readPkgJson(dirs);
 
-	dirs.map((item, key) => {
+	dirs.map((item) => {
 		nextDirs = this.walkDir(item);
 		if (depth > 0) {
 			this.createConfig(nextDirs, depth - 1);
@@ -157,12 +156,12 @@ ProPlugin.prototype.runCommand = function(cmdType, subProject) {
 
 	// only for a subproject
 	if (subProject) {
-		projects = projects.filter((item, key) => {
+		projects = projects.filter((item) => {
 			return (item === subProject);
 		});
 	}
 
-	projects.map((item, key) => {
+	projects.map((item) => {
 		let project = projectConfig[item];
 
 		projectFolder.push(path.resolve(project.src));
@@ -203,9 +202,9 @@ ProPlugin.prototype.runningProcess = function(opt, cb) {
 
 	return () => {
 
-		let childProcess = exec(cmd, {cwd}, function (error, stdout, stderr) {
+		let childProcess = exec(cmd, {cwd}, function (error) {
 			if (error) {
-				console.log(error);
+				utils.error(error);
 			}
         });
 
@@ -219,11 +218,11 @@ ProPlugin.prototype.runningProcess = function(opt, cb) {
 		}
 
         childProcess.stdout.on('data', function (data) {
-        	console.log(projects[key] + ': \n' + data);
+        	utils.info(projects[key] + ': \n' + data);
         });
 
         childProcess.stderr.on('data', function (data) {
-        	console.log(projects[key] + ': \n' + data);
+        	utils.error(projects[key] + ': \n' + data);
         });
 
         childProcess.on('exit', (code) => {
@@ -233,7 +232,7 @@ ProPlugin.prototype.runningProcess = function(opt, cb) {
 
         	// keep config state
         	cb.bind(this)(this.tmpConfig[childProcess.pid]);
-        	console.log(projects[key] + ': \n' + 'child process exited with code ' + code);
+        	utils.info(projects[key] + ': \n' + 'child process exited with code ' + code);
 
         	if (this.processCount === projects.length) {
         		this.processCount = 0;
