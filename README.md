@@ -2,6 +2,11 @@
 
 多框架管理工具
 
+[![NPM Version](https://img.shields.io/npm/v/steamer-plugin-pro.svg?style=flat)](https://www.npmjs.com/package/steamer-plugin-pro)
+[![Travis](https://img.shields.io/travis/SteamerTeam/steamer-plugin-pro.svg)](https://travis-ci.org/SteamerTeam/steamer-plugin-pro)
+[![Deps](https://david-dm.org/SteamerTeam/steamer-plugin-pro.svg)](https://david-dm.org/SteamerTeam/steamer-plugin-pro)
+[![Coverage](https://img.shields.io/coveralls/SteamerTeam/steamer-plugin-pro.svg)](https://coveralls.io/github/SteamerTeam/steamer-plugin-pro)
+
 ### 安装
 
 ```javascript
@@ -257,8 +262,3 @@ npm i -g eslint // 安装eslint
 
 npm test
 ```
-
-
-### Changelog
-* v1.0.0 初始化项目、多项目同时开发和发布、合并生成的线上代码
-* v1.0.1 优化log输出

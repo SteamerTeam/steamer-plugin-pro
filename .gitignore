@@ -2,5 +2,6 @@ node_modules
 **/*/node_modules
 **/*/.happypack
 **/*/.webpack_cache
-**/*/.DS_Store
 dist
+coverage
+.DS_Store

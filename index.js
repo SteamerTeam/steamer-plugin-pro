@@ -6,9 +6,6 @@ const fs = require('fs-extra'),
 	  path = require('path'),
 	  pluginUtils = require('steamer-pluginutils');
 
-var utils = new pluginUtils();
-utils.pluginName = "steamer-plugin-pro";
-
 function emptyFunc() {}
 
 function ProPlugin(argv) {
@@ -16,6 +13,7 @@ function ProPlugin(argv) {
 	this.config = null;
 	this.tmpConfig = {};   // temporary config
 	this.processCount = 0; // child process count
+	this.utils = new pluginUtils("steamer-plugin-pro");
 }
 
 ProPlugin.prototype.init = function() {
@@ -109,10 +107,11 @@ ProPlugin.prototype.createConfig = function(dirs, d) {
 	});
 
 	if (depth === 1) {
-		let isJs = true,
-		isForce = (this.argv.f || this.argv.force) ? true : false;
+		let isForce = (this.argv.f || this.argv.force) ? true : false;
 
-		utils.createConfig("", this.config, isJs, isForce);
+		this.utils.createConfig(this.config, {
+			overwrite: isForce,
+		});
 	}
 
 };
@@ -121,8 +120,7 @@ ProPlugin.prototype.createConfig = function(dirs, d) {
  * [read config]
  */
 ProPlugin.prototype.readConfig = function() {
-	let isJs = true;
-	this.config = utils.readConfig("", isJs);
+	this.config = this.utils.readConfig();
 };
 
 /**
@@ -193,18 +191,19 @@ ProPlugin.prototype.runCommand = function(cmdType, subProject) {
 ProPlugin.prototype.runningProcess = function(opt, cb) {
 
 	let projects = opt.projects,
-		projectFolder = opt.projectFolder,
-		projectCmds = opt.projectCmds,
 		cmdType = opt.cmdType,
 		cmd = opt.cmd,
 		key = opt.key,
 		cwd = opt.cwd;
 
 	return () => {
-
-		let childProcess = exec(cmd, {cwd}, function (error) {
+		
+		let childProcess = exec(cmd, {
+				cwd: cwd,
+				shell: true,
+			}, (error) => {
 			if (error) {
-				utils.error(error);
+				this.utils.error(error);
 			}
         });
 
@@ -217,12 +216,12 @@ ProPlugin.prototype.runningProcess = function(opt, cb) {
 			stepStart.bind(this)(this.tmpConfig[childProcess.pid]);
 		}
 
-        childProcess.stdout.on('data', function (data) {
-        	utils.info(projects[key] + ': \n' + data);
+        childProcess.stdout.on('data', (data) => {
+        	this.utils.info(projects[key] + ': \n' + data);
         });
 
-        childProcess.stderr.on('data', function (data) {
-        	utils.error(projects[key] + ': \n' + data);
+        childProcess.stderr.on('data', (data) => {
+        	this.utils.error(projects[key] + ': \n' + data);
         });
 
         childProcess.on('exit', (code) => {
@@ -232,7 +231,7 @@ ProPlugin.prototype.runningProcess = function(opt, cb) {
 
         	// keep config state
         	cb.bind(this)(this.tmpConfig[childProcess.pid]);
-        	utils.info(projects[key] + ': \n' + 'child process exited with code ' + code);
+        	this.utils.info(projects[key] + ': \n' + 'child process exited with code ' + code);
 
         	if (this.processCount === projects.length) {
         		this.processCount = 0;
