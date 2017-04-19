@@ -1,3 +1,6 @@
+## 1.2.2
+	- 更新 steamer-pluginutils
+
 
 ## 1.2.0
 	- 优化测试用例
