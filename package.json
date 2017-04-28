@@ -1,6 +1,6 @@
 {
   "name": "steamer-plugin-pro",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "steamer-plugin-pro",
   "main": "index.js",
   "bin": "index.js",
@@ -15,17 +15,17 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/SteamerTeam/steamer-plugin-pro.git"
+    "url": "git+https://github.com/steamerjs/steamer-plugin-pro.git"
   },
   "keywords": [
     "steamer"
   ],
-  "author": "SteamerTeam",
+  "author": "steamerjs",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/SteamerTeam/steamer-plugin-pro/issues"
+    "url": "https://github.com/steamerjs/steamer-plugin-pro/issues"
   },
-  "homepage": "https://github.com/SteamerTeam/steamer-plugin-pro#readme",
+  "homepage": "https://github.com/steamerjs/steamer-plugin-pro#readme",
   "dependencies": {
     "chalk": "^1.1.3",
     "fs-extra": "^2.1.2",

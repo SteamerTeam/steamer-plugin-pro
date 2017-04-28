@@ -268,4 +268,29 @@ ProPlugin.prototype.copyToDist = function() {
 	});
 };
 
+/**
+ * [help]
+ */
+ProPlugin.prototype.help = function() {
+	this.utils.printUsage('multiple framework management', 'pro');
+	this.utils.printOption([
+		{
+			option: "init",
+			alias: "i",
+			value: "[--level|-l] [level number] [--force|-f]",
+			description: "initialize projects config"
+		},
+		{
+			option: "start",
+			alias: "s",
+			description: "start developing projects"
+		},
+		{
+			option: "dist",
+			alias: "d",
+			description: "start publish projects"
+		}
+	]);
+};
+
 module.exports = ProPlugin;
