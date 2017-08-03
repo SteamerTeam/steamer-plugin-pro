@@ -1,9 +1,14 @@
+## 1.3.0
+	- 更新 steamer-pluginutils
+
+
 ## 1.2.3
 	- 更新 steamer-pluginutils
 
 
 ## 1.2.0
 	- 优化测试用例
+
 
 ## 1.0.1
 	- 优化log输出
