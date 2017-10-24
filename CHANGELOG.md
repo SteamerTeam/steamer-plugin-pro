@@ -1,3 +1,6 @@
+## 2.0.0
+	- 更新内核 steamer-plugin
+
 ## 1.3.0
 	- 更新 steamer-pluginutils
 

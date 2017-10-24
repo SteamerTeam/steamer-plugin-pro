@@ -1,77 +1,75 @@
-"use strict";
+'use strict';
 
 const path = require('path'),
-	  os = require('os'),
-	  fs = require('fs-extra'),
-	  chalk = require('chalk'),
-	  expect = require('expect.js'),
-	  sinon = require('sinon'),
-	  spawnSync = require('child_process').spawnSync,
-	  plugin = require('../index');
+    fs = require('fs-extra'),
+    expect = require('expect.js'),
+    sinon = require('sinon'),
+    spawnSync = require('child_process').spawnSync,
+    Plugin = require('../index');
 
-const TEST = "test",
-	  PROJECT = path.join(process.cwd(), TEST, "project");
+const TEST = 'test',
+    PROJECT = path.join(process.cwd(), TEST, 'project');
 
 
-describe("steamer-plugin-pro", function() {
+describe('steamer-plugin-pro', function() {
 
-	before(function() {
+    before(function() {
 
-	});
+    });
 
-	it("=> init", function() {
-		process.chdir(path.join(PROJECT, "project1"));
+    it('=> init', function() {
+        process.chdir(path.join(PROJECT, 'project1'));
 
-		var pro = new plugin({
-		    init: true,
-		    force: true,
-		});
+        let pro = new Plugin({
+            init: true,
+            force: true,
+        });
 
-		pro.init();
+        pro.init();
 
-		let config = require(path.join(PROJECT, "project1/.steamer/steamer-plugin-pro.js"), "utf-8");
+        let config = require(path.join(PROJECT, 'project1/.steamer/steamer-plugin-pro.js'), 'utf-8');
 
         expect(config.plugin).to.be('steamer-plugin-pro');
 
         expect(config.config.projects['steamer-react'].src).to.be('steamer-react');
         expect(config.config.projects['steamer-react'].cmds.start).to.be('node ./tools/start.js');
         expect(config.config.projects['steamer-react'].cmds.dist).to.be('node ./tools/dist.js');
-        
+
         expect(config.config.projects['steamer-simple'].src).to.be('steamer-simple');
         expect(config.config.projects['steamer-simple'].cmds.start).to.be('node ./tools/start.js');
         expect(config.config.projects['steamer-simple'].cmds.dist).to.be('node ./tools/dist.js');
-  	 
+
         expect(config.config.steps.start).to.eql({});
         expect(config.config.steps.dist).to.eql({});
 
-	});
+    });
 
-	it("=> init with level", function() {
-		process.chdir(path.join(PROJECT, "project3"));
+    it('=> init with level', function() {
+        process.chdir(path.join(PROJECT, 'project3'));
 
-		var pro = new plugin({
-		    init: true,
-		    force: true,
-		    level: 4,
-		});
+        let pro = new Plugin({
+            init: true,
+            force: true,
+            level: 4,
+        });
 
-		pro.init();
+        pro.init();
 
-		let config = require(path.join(PROJECT, "project3/.steamer/steamer-plugin-pro.js"), "utf-8");
+        let config = require(path.join(PROJECT, 'project3/.steamer/steamer-plugin-pro.js'), 'utf-8');
 
         expect(config.plugin).to.be('steamer-plugin-pro');
 
         expect(config.config.projects['steamer-project'].src).to.be('');
         expect(config.config.projects['steamer-project'].cmds.start).to.be('node ./tools/start.js');
         expect(config.config.projects['steamer-project'].cmds.dist).to.be('node ./tools/dist.js');
-        
+
         expect(config.config.projects['steamer-react'].src).to.be('steamer-react');
         expect(config.config.projects['steamer-react'].cmds.start).to.be('node ./tools/start.js');
         expect(config.config.projects['steamer-react'].cmds.dist).to.be('node ./tools/dist.js');
 
         expect(config.config.projects['steamer-simple'].src).to.be('steamer-simple');
-        expect(config.config.projects['steamer-simple'].cmds.start).to.be("echo 'steamer-simple dev'");
-        expect(config.config.projects['steamer-simple'].cmds.dist).to.be("echo 'steamer-simple dist'");
+        expect(config.config.projects['steamer-simple'].cmds.start).to.be('echo \'steamer-simple dev\'');
+        expect(config.config.projects['steamer-simple'].cmds.dist).to.be('echo \'steamer-simple dist\'');
 
         expect(config.config.projects['steamer-simple1'].src).to.be('steamer-simple/steamer-simple1');
         expect(config.config.projects['steamer-simple1'].cmds.start).to.be('node ./tools/start.js');
@@ -84,138 +82,135 @@ describe("steamer-plugin-pro", function() {
         expect(config.config.projects['steamer-simple3'].src).to.be('steamer-simple/steamer-simple1/steamer-simple2/steamer-simple3');
         expect(config.config.projects['steamer-simple3'].cmds.start).to.be('node ./tools/start.js');
         expect(config.config.projects['steamer-simple3'].cmds.dist).to.be('node ./tools/dist.js');
-     
+
         expect(config.config.steps.start).to.eql({});
         expect(config.config.steps.dist).to.eql({});
 
-	});
+    });
 
-	it("=> start", function(done) {
-		this.timeout(3000);
+    it('=> start', function(done) {
+        this.timeout(3000);
 
-		process.chdir(path.join(PROJECT, "project2"));
+        process.chdir(path.join(PROJECT, 'project2'));
 
-		var pro = new plugin({
-		    start: true,
-		});
+        let pro = new Plugin({
+            start: true,
+        });
 
-		var infoStub = sinon.stub(pro.utils, "info");
+        let infoStub = sinon.stub(pro, 'info');
 
-		pro.init();
+        pro.init();
 
-		setTimeout(() => {
-			expect(infoStub.calledWith("steamer-react: \nsteamer-react dev\n")).to.be(true);
-			expect(infoStub.calledWith("steamer-simple: \nsteamer-simple dev\n")).to.be(true);
+        setTimeout(() => {
+            expect(infoStub.calledWith('steamer-react: \nsteamer-react dev\n')).to.be(true);
+            expect(infoStub.calledWith('steamer-simple: \nsteamer-simple dev\n')).to.be(true);
 
-			infoStub.restore();
-			done();
-		}, 2000);
-		
-
-	});
-
-	it("=> start specific project", function(done) {
-		this.timeout(4000);
-
-		process.chdir(path.join(PROJECT, "project3"));
-
-		var pro = new plugin({
-		    start: "steamer-simple",
-		});
-
-		var infoStub = sinon.stub(pro.utils, "info");
-
-		pro.init();
-
-		setTimeout(() => {
-			expect(infoStub.calledWith("steamer-simple: \nsteamer-simple dev\n")).to.be(true);
-
-			infoStub.restore();
-			done();
-		}, 3000);
-		
-
-	});
-
-	it("=> dist specific project", function(done) {
-		this.timeout(4000);
-
-		process.chdir(path.join(PROJECT, "project3"));
-
-		var pro = new plugin({
-		    dist: "steamer-simple",
-		});
-
-		var infoStub = sinon.stub(pro.utils, "info");
-
-		pro.init();
+            infoStub.restore();
+            done();
+        }, 2000);
 
 
-		setTimeout(() => {
-			expect(infoStub.calledWith("steamer-simple: \nsteamer-simple dist\n")).to.be(true);
-			infoStub.restore();
+    });
+
+    it('=> start specific project', function(done) {
+        this.timeout(4000);
+
+        process.chdir(path.join(PROJECT, 'project3'));
+
+        let pro = new Plugin({
+            start: 'steamer-simple',
+        });
+
+        let infoStub = sinon.stub(pro, 'info');
+
+        pro.init();
+
+        setTimeout(() => {
+            expect(infoStub.calledWith('steamer-simple: \nsteamer-simple dev\n')).to.be(true);
+
+            infoStub.restore();
+            done();
+        }, 3000);
 
 
-			let dist = fs.readdirSync(path.join(PROJECT, "project3/steamer-simple/dist/"));
+    });
 
-	        expect(dist[0]).to.be('cdn');
-	        expect(dist[1]).to.be('webserver');
+    it('=> dist specific project', function(done) {
+        this.timeout(4000);
 
-	        let cdn = fs.readdirSync(path.join(PROJECT, "project3/steamer-simple/dist/cdn"));
+        process.chdir(path.join(PROJECT, 'project3'));
 
-	        expect(cdn[0]).to.be('simple');
+        let pro = new Plugin({
+            dist: 'steamer-simple',
+        });
 
-	        let webserver = fs.readdirSync(path.join(PROJECT, "project3/steamer-simple/dist/webserver"));
+        let infoStub = sinon.stub(pro, 'info');
 
-	        expect(webserver[0]).to.be('simple');
-
-
-			done();
-
-		}, 3000);
+        pro.init();
 
 
-	});
-
-	it("=> dist", function(done) {
-		this.timeout(4000);
-
-		process.chdir(path.join(PROJECT, "project2"));
-
-		var pro = new plugin({
-		    dist: true,
-		});
-
-		var infoStub = sinon.stub(pro.utils, "info");
-
-		pro.init();
-
-		setTimeout(() => {
-			expect(infoStub.calledWith("steamer-react: \nsteamer-react dist\n")).to.be(true);
-			expect(infoStub.calledWith("steamer-simple: \nsteamer-simple dist\n")).to.be(true);
-
-			infoStub.restore();
-
-			let dist = fs.readdirSync(path.join(PROJECT, "project2/dist"));
-
-	        expect(dist[0]).to.be('cdn');
-	        expect(dist[1]).to.be('webserver');
-
-	        let cdn = fs.readdirSync(path.join(PROJECT, "project2/dist/cdn"));
-
-	        expect(cdn[0]).to.be('react');
-	        expect(cdn[1]).to.be('simple');
-
-	        let webserver = fs.readdirSync(path.join(PROJECT, "project2/dist/webserver"));
-
-	        expect(webserver[0]).to.be('react');
-	        expect(webserver[1]).to.be('simple');
-
-			done();
-		}, 3000);
-		
-
-	});
+        setTimeout(() => {
+            expect(infoStub.calledWith('steamer-simple: \nsteamer-simple dist\n')).to.be(true);
+            infoStub.restore();
 
 
+            let dist = fs.readdirSync(path.join(PROJECT, 'project3/steamer-simple/dist/'));
+
+            expect(dist[0]).to.be('cdn');
+            expect(dist[1]).to.be('webserver');
+
+            let cdn = fs.readdirSync(path.join(PROJECT, 'project3/steamer-simple/dist/cdn'));
+
+            expect(cdn[0]).to.be('simple');
+
+            let webserver = fs.readdirSync(path.join(PROJECT, 'project3/steamer-simple/dist/webserver'));
+
+            expect(webserver[0]).to.be('simple');
+
+
+            done();
+
+        }, 3000);
+
+
+    });
+
+    it('=> dist', function(done) {
+        this.timeout(4000);
+
+        process.chdir(path.join(PROJECT, 'project2'));
+
+        let pro = new Plugin({
+            dist: true,
+        });
+
+        let infoStub = sinon.stub(pro, 'info');
+
+        pro.init();
+
+        setTimeout(() => {
+            expect(infoStub.calledWith('steamer-react: \nsteamer-react dist\n')).to.be(true);
+            expect(infoStub.calledWith('steamer-simple: \nsteamer-simple dist\n')).to.be(true);
+
+            infoStub.restore();
+
+            let dist = fs.readdirSync(path.join(PROJECT, 'project2/dist'));
+
+            expect(dist[0]).to.be('cdn');
+            expect(dist[1]).to.be('webserver');
+
+            let cdn = fs.readdirSync(path.join(PROJECT, 'project2/dist/cdn'));
+
+            expect(cdn[0]).to.be('react');
+            expect(cdn[1]).to.be('simple');
+
+            let webserver = fs.readdirSync(path.join(PROJECT, 'project2/dist/webserver'));
+
+            expect(webserver[0]).to.be('react');
+            expect(webserver[1]).to.be('simple');
+
+            done();
+        }, 3000);
+
+    });
 });
