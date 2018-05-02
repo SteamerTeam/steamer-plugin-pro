@@ -71,7 +71,7 @@ class ProPlugin extends SteamerPlugin {
      * @param  {Array} dirs [potential project dirs]
      */
     readPkgJson(dirs) {
-        dirs.map((item) => {
+        dirs.forEach((item) => {
             let projectPath = path.resolve(item),
                 pkgJsonPath = path.join(projectPath, 'package.json');
 
@@ -99,7 +99,7 @@ class ProPlugin extends SteamerPlugin {
 
         this.readPkgJson(dirs);
 
-        dirs.map((item) => {
+        dirs.forEach((item) => {
             nextDirs = this.walkDir(item);
             if (depth > 0) {
                 this.createPluginConfig(nextDirs, depth - 1);
@@ -158,14 +158,14 @@ class ProPlugin extends SteamerPlugin {
             });
         }
 
-        projects.map((item) => {
+        projects.forEach((item) => {
             let project = projectConfig[item];
 
             projectFolder.push(path.resolve(project.src));
             projectCmds.push(project.cmds[cmdType]);
         });
 
-        projectFolder.map((cwd, key) => {
+        projectFolder.forEach((cwd, key) => {
             let cmd = projectCmds[key];
 
             let stepFinish = emptyFunc;
@@ -245,7 +245,7 @@ class ProPlugin extends SteamerPlugin {
         let projectConfig = this.config.projects || {},
             projects = Object.keys(projectConfig) || [];
 
-        projects.map((item) => {
+        projects.forEach((item) => {
             let dist = projectConfig[item].dist || '',
                 distPath = path.resolve(dist);
 
@@ -253,7 +253,7 @@ class ProPlugin extends SteamerPlugin {
 
         });
 
-        projects.map((item) => {
+        projects.forEach((item) => {
             let dist = projectConfig[item].dist || '',
                 src = projectConfig[item].src || '',
                 srcPath = path.resolve(src, 'dist'),
