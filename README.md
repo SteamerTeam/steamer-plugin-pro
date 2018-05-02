@@ -4,7 +4,7 @@
 
 [![NPM Version](https://img.shields.io/npm/v/steamer-plugin-pro.svg?style=flat)](https://www.npmjs.com/package/steamer-plugin-pro)
 [![Travis](https://img.shields.io/travis/steamerjs/steamer-plugin-pro.svg)](https://travis-ci.org/steamerjs/steamer-plugin-pro)
-[![Deps](https://david-dm.org/steamerjs/steamer-plugin-pro.svg)](https://img.shields.io/david/steamerjs/steamer-plugin-pro)
+[![Deps](https://img.shields.io/david/steamer-plugin-pro.svg)](https://david-dm.org/steamerjs/steamer-plugin-pro)
 [![Coverage](https://img.shields.io/coveralls/steamerjs/steamer-plugin-pro.svg)](https://coveralls.io/github/steamerjs/steamer-plugin-pro)
 
 ### 安装
